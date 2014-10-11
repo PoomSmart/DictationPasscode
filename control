@@ -1,0 +1,8 @@
+Package: org.thebigboss.dictationpasscode
+Name: DictationPasscode
+Depends: mobilesubstrate, firmware (>= 5.0), gsc.dictation
+Version: 1.0
+Architecture: iphoneos-arm
+Description: Force enable Dictation when typing passcode.
+Maintainer: PoomSmart
+Author: PoomSmart
