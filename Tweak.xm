@@ -1,7 +1,3 @@
-/*
-	(Tested) Issue on iOS 6: Dictation key doesn't show up when the current text field type is passcode.
-*/
-
 #import <substrate.h>
 #import "../PS.h"
 #import <Preferences/Preferences.h>
@@ -99,6 +95,30 @@ BOOL hookKeyboardTypeZero = NO;
 	return %orig;
 }
 
+- (BOOL)canReuseKeyplaneView
+{
+	BOOL isSecure = MSHookIvar<BOOL>(self, "_secureTextEntry");
+	if (isSecure) {
+		MSHookIvar<BOOL>(self, "_secureTextEntry") = !dpEnabled();
+		BOOL orig = %orig;
+		PSLog(@"canReuseKeyplaneView: %d", orig);
+		MSHookIvar<BOOL>(self, "_secureTextEntry") = YES;
+	}
+	return %orig;
+}
+
+- (void)updateMoreAndInternationalKeys
+{
+	BOOL isSecure = MSHookIvar<BOOL>(self, "_secureTextEntry");
+	if (isSecure) {
+		MSHookIvar<BOOL>(self, "_secureTextEntry") = !dpEnabled();
+		%orig;
+		MSHookIvar<BOOL>(self, "_secureTextEntry") = YES;
+		return;
+	}
+	%orig;
+}
+
 %end
 
 %hook UITextInputTraits
@@ -111,21 +131,6 @@ BOOL hookKeyboardTypeZero = NO;
 %end
 
 %end
-
-/*%group dp6
-
-%hook UIKBCandidateView
-
-- (id)initWithFrame:(CGRect)frame keyboard:(id)keyboard key:(id)key state:(int)state
-{
-	id orig = %orig;
-	
-	return orig;
-}
-
-%end
-
-%end*/
 
 %group dpCommon
 
