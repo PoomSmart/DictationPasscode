@@ -64,19 +64,6 @@ BOOL hookKeyboardTypeZero = NO;
 
 %end
 
-%end
-
-%group dp6Up
-
-%hook UITextInputTraits
-
-- (BOOL)isSecureTextEntry
-{
-	return hookNotSecureTextEntry ? NO : %orig;
-}
-
-%end
-
 %hook UIKeyboardLayoutStar
 
 - (BOOL)canReuseKeyplaneView
@@ -93,6 +80,19 @@ BOOL hookKeyboardTypeZero = NO;
 	hookNotSecureTextEntry = YES;
 	%orig;
 	hookNotSecureTextEntry = NO;
+}
+
+%end
+
+%end
+
+%group dp6Up
+
+%hook UITextInputTraits
+
+- (BOOL)isSecureTextEntry
+{
+	return hookNotSecureTextEntry ? NO : %orig;
 }
 
 %end
