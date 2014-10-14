@@ -241,17 +241,16 @@ static char dpSpecifierKey;
 	if (isPrefApp) {
 		dlopen("/System/Library/PreferenceBundles/KeyboardSettings.bundle/KeyboardSettings", RTLD_LAZY);
 		%init(Pref);
-	} else {
-		if (isiOS7Up) {
-			%init(dp7Up);
-		}
-		if (isiOS6Up) {
-			%init(dp6Up);
-		}
-		if (isiOS5 || isiOS6) {
-			%init(dp56);
-		}
-		%init(dpCommon);
 	}
+	if (isiOS7Up) {
+		%init(dp7Up);
+	}
+	if (isiOS6Up) {
+		%init(dp6Up);
+	}
+	if (isiOS5 || isiOS6) {
+		%init(dp56);
+	}
+	%init(dpCommon);
 	[pool drain];
 }
