@@ -77,6 +77,26 @@ BOOL hookKeyboardTypeZero = NO;
 
 %end
 
+%hook UIKeyboardLayoutStar
+
+- (BOOL)canReuseKeyplaneView
+{
+	hookNotSecureTextEntry = YES;
+	BOOL orig = %orig;
+	hookNotSecureTextEntry = NO;
+	PSLog(@"canReuseKeyplaneView: %d", orig);
+	return orig;
+}
+
+- (void)updateMoreAndInternationalKeys
+{
+	hookNotSecureTextEntry = YES;
+	%orig;
+	hookNotSecureTextEntry = NO;
+}
+
+%end
+
 %end
 
 %group dp56
